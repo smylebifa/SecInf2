@@ -8,6 +8,7 @@ INPUT(
 ./release\about.o
 ./release\decryption.o
 ./release\SimpleCrypt.o
+./release\qaesencryption.o
 ./release\moc_unit1.o
 ./release\moc_passworddialog.o
 ./release\moc_changepassword.o

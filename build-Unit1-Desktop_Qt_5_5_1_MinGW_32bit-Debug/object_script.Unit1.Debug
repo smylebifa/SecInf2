@@ -8,6 +8,7 @@ INPUT(
 ./debug\about.o
 ./debug\decryption.o
 ./debug\SimpleCrypt.o
+./debug\qaesencryption.o
 ./debug\moc_unit1.o
 ./debug\moc_passworddialog.o
 ./debug\moc_changepassword.o

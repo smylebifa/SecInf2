@@ -6,6 +6,8 @@
 #include <QErrorMessage>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QCryptographicHash>
+#include "qaesencryption.h"
 
 using namespace std;
 
@@ -23,7 +25,7 @@ struct AccountType
 
 extern AccountType User;
 
-extern int Key;
+extern string Key;
 
 extern bool CanClose;
 

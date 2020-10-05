@@ -17,9 +17,9 @@ Decryption::~Decryption()
 
 void Decryption::on_pushButton_clicked()
 {
-    Key = ui->lineEdit->text().toInt();
+    Key = ui->lineEdit->text().toStdString();
 
-    if(Key != 12345)
+    if(Key != "12345")
     {
         QErrorMessage msg(this);
         msg.showMessage(tr("Password is not true"));
@@ -29,27 +29,52 @@ void Decryption::on_pushButton_clicked()
     else
     {
 
+    CanClose=true;
+
     string str;
+    QByteArray encodeText;
 
-    ifstream fileDec(DECFILE);
-    if(fileDec) getline(fileDec,str);
-
+    QFile fileDec(DECFILE);
+    if(fileDec.open(QIODevice::ReadOnly)) encodeText = fileDec.readAll();
     fileDec.close();
 
-    if(!str.empty())
+    QString key("12345");
+    QString iv("your-IV-vector");
+
+    if(!encodeText.isEmpty())
     {
+        QAESEncryption encryption(QAESEncryption::AES_256, QAESEncryption::CBC);
 
-        SimpleCrypt processSimpleCrypt(Key);
+        QByteArray hashKey = QCryptographicHash::hash(key.toLocal8Bit(), QCryptographicHash::Sha256);
+        QByteArray hashIV = QCryptographicHash::hash(iv.toLocal8Bit(), QCryptographicHash::Md5);
 
-        //Decrypt
-        QString decrypt = processSimpleCrypt.decryptToString(QString::fromStdString(str));
+        QByteArray decodeText = encryption.decode(encodeText, hashKey, hashIV);
+
+        QString decodedString = QString(encryption.removePadding(decodeText));
 
         ofstream fileTempOut(TEMPFILE);
 
-        if(fileTempOut) fileTempOut<<decrypt.toStdString();
+        if(fileTempOut) fileTempOut<<decodedString.toStdString();
 
         fileTempOut.close();
     }
+
+
+
+//    if(!str.empty())
+//    {
+
+//        SimpleCrypt processSimpleCrypt(Key);
+
+//        //Decrypt
+//        QString decrypt = processSimpleCrypt.decryptToString(QString::fromStdString(str));
+
+//        ofstream fileTempOut(TEMPFILE);
+
+//        if(fileTempOut) fileTempOut<<decrypt.toStdString();
+
+//        fileTempOut.close();
+//    }
 
 
 

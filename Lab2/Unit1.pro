@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     editusers.cpp \
     about.cpp \
     decryption.cpp \
-    SimpleCrypt.cpp
+    SimpleCrypt.cpp \
+    qaesencryption.cpp
 
 HEADERS  += unit1.h \
     passworddialog.h \
@@ -28,7 +29,8 @@ HEADERS  += unit1.h \
     editusers.h \
     about.h \
     decryption.h \
-    SimpleCrypt.h
+    SimpleCrypt.h \
+    qaesencryption.h
 
 FORMS    += unit1.ui \
     passworddialog.ui \
@@ -39,5 +41,7 @@ FORMS    += unit1.ui \
     decryption.ui
 
 CONFIG += qt
+
+CONFIG += c++11
 
 INCLUDEPATH += C:/OpenSSL-Win32/include

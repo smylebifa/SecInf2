@@ -16,7 +16,7 @@ int Count;
 
 bool CanEnter;
 
-int Key;
+string Key;
 
 Unit1::Unit1(QWidget *parent) :
     QMainWindow(parent),
@@ -87,22 +87,57 @@ void Unit1::decryption()
     }
     file.close();
 
-    QString FreeTrialStartDate ;
+    QAESEncryption encryption(QAESEncryption::AES_256, QAESEncryption::CBC);
 
-    //Set The Encryption And Decryption Key
-    SimpleCrypt processSimpleCrypt(Key);
+    QString inputStr = QString::fromStdString(text);
+    QString key("12345");
+    QString iv("your-IV-vector");
 
-    QString FreeTrialStartsOn=QString::fromStdString(text);
+    QByteArray hashKey = QCryptographicHash::hash(key.toLocal8Bit(), QCryptographicHash::Sha256);
+    QByteArray hashIV = QCryptographicHash::hash(iv.toLocal8Bit(), QCryptographicHash::Md5);
 
-    //Encrypt
-    FreeTrialStartDate = processSimpleCrypt.encryptToString(FreeTrialStartsOn);
+    QByteArray encodeText = encryption.encode(inputStr.toLocal8Bit(), hashKey, hashIV);
+    QByteArray decodeText = encryption.decode(encodeText, hashKey, hashIV);
+
+    QString decodedString = QString(encryption.removePadding(decodeText));
+
+//    cout<<decodedString.toStdString()<<endl;
+
+    QFile fileDec(DECFILE);
+
+    if(fileDec.open(QIODevice::WriteOnly))
+    {
+        fileDec.write(encodeText);
+    }
 
 
-    ofstream fileDec("DecFile.db");
+//    QFile fileDec("DecFile.db");
 
-    if(fileDec) fileDec<<FreeTrialStartDate.toStdString();
+//    if(fileDec.open(QIODevice::WriteOnly)) fileDec.write(encodeText);
 
-    fileDec.close();
+//    fileDec.close();
+
+
+
+
+
+
+//    QString FreeTrialStartDate ;
+
+//    //Set The Encryption And Decryption Key
+//    SimpleCrypt processSimpleCrypt(Key);
+
+//    QString FreeTrialStartsOn=QString::fromStdString(text);
+
+//    //Encrypt
+//    FreeTrialStartDate = processSimpleCrypt.encryptToString(FreeTrialStartsOn);
+
+
+//    ofstream fileDec("DecFile.db");
+
+//    if(fileDec) fileDec<<FreeTrialStartDate.toStdString();
+
+//    fileDec.close();
 
     if(remove("TempFile.db")!=0)
         return;
@@ -131,7 +166,7 @@ void Unit1::on_pushButton_clicked()
         ui->pushButton->setVisible(false);
 
         if(User.Block=='-')
-            ui->Change->setVisible(true);
+            ui->Change->setVisible(false);
     }
 
     checkAdmin();

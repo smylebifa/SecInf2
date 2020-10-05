@@ -13,7 +13,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DUNICODE -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN
 CFLAGS        = -pipe -fno-keep-inline-dllexport -O2 -Wall -Wextra $(DEFINES)
-CXXFLAGS      = -pipe -fno-keep-inline-dllexport -O2 -frtti -Wall -Wextra -fexceptions -mthreads $(DEFINES)
+CXXFLAGS      = -pipe -fno-keep-inline-dllexport -O2 -std=c++0x -frtti -Wall -Wextra -fexceptions -mthreads $(DEFINES)
 INCPATH       = -I..\Lab2 -I. -IC:\OpenSSL-Win32\include -IC:\Qt\Qt5.5.1\5.5\mingw492_32\include -IC:\Qt\Qt5.5.1\5.5\mingw492_32\include\QtWidgets -IC:\Qt\Qt5.5.1\5.5\mingw492_32\include\QtGui -IC:\Qt\Qt5.5.1\5.5\mingw492_32\include\QtANGLE -IC:\Qt\Qt5.5.1\5.5\mingw492_32\include\QtCore -Irelease -I. -IC:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-s -Wl,-subsystem,windows -mthreads
@@ -51,7 +51,8 @@ SOURCES       = ..\Lab2\main.cpp \
 		..\Lab2\editusers.cpp \
 		..\Lab2\about.cpp \
 		..\Lab2\decryption.cpp \
-		..\Lab2\SimpleCrypt.cpp release\moc_unit1.cpp \
+		..\Lab2\SimpleCrypt.cpp \
+		..\Lab2\qaesencryption.cpp release\moc_unit1.cpp \
 		release\moc_passworddialog.cpp \
 		release\moc_changepassword.cpp \
 		release\moc_adduser.cpp \
@@ -67,6 +68,7 @@ OBJECTS       = release/main.o \
 		release/about.o \
 		release/decryption.o \
 		release/SimpleCrypt.o \
+		release/qaesencryption.o \
 		release/moc_unit1.o \
 		release/moc_passworddialog.o \
 		release/moc_changepassword.o \
@@ -82,7 +84,8 @@ DIST          =  ..\Lab2\unit1.h \
 		..\Lab2\editusers.h \
 		..\Lab2\about.h \
 		..\Lab2\decryption.h \
-		..\Lab2\SimpleCrypt.h ..\Lab2\main.cpp \
+		..\Lab2\SimpleCrypt.h \
+		..\Lab2\qaesencryption.h ..\Lab2\main.cpp \
 		..\Lab2\unit1.cpp \
 		..\Lab2\passworddialog.cpp \
 		..\Lab2\changepassword.cpp \
@@ -90,7 +93,8 @@ DIST          =  ..\Lab2\unit1.h \
 		..\Lab2\editusers.cpp \
 		..\Lab2\about.cpp \
 		..\Lab2\decryption.cpp \
-		..\Lab2\SimpleCrypt.cpp
+		..\Lab2\SimpleCrypt.cpp \
+		..\Lab2\qaesencryption.cpp
 QMAKE_TARGET  = Unit1
 DESTDIR        = release\ #avoid trailing-slash linebreak
 TARGET         = Unit1.exe
@@ -126,10 +130,10 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) Unit1.zip $(SOURCES) $(DIST) ..\Lab2\Unit1.pro C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\spec_pre.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\qdevice.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\device_config.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\qconfig.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcollision.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcollision_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquickrenderer.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquickrenderer_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3drenderer.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3drenderer_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_core.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_dbus.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_declarative.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_declarative_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_enginio.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_enginio_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_help.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_location.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_location_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_network.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_script.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_script_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webkit.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webkit_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webkitwidgets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\qt_functions.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\qt_config.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\qt_config.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\win32-g++\qmake.conf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\spec_post.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\exclusive_builds.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\default_pre.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\default_pre.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\resolve_config.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\default_post.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\build_pass.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\qt.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\resources.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\moc.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\opengl.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\uic.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\rtti.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\precompile_header.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\warn_on.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\windows.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\testcase_targets.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\exceptions.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\yacc.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\lex.prf ..\Lab2\Unit1.pro C:/Qt/Qt5.5.1/5.5/mingw492_32/lib/qtmain.prl C:/Qt/Qt5.5.1/5.5/mingw492_32/lib/Qt5Widgets.prl C:/Qt/Qt5.5.1/5.5/mingw492_32/lib/Qt5Gui.prl C:/Qt/Qt5.5.1/5.5/mingw492_32/lib/Qt5Core.prl  RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS NO_PCH_SOURCES YACCSOURCES YACCSOURCES LEXSOURCES 
+	$(ZIP) Unit1.zip $(SOURCES) $(DIST) ..\Lab2\Unit1.pro C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\spec_pre.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\qdevice.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\device_config.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\qconfig.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcollision.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcollision_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquickrenderer.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquickrenderer_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3drenderer.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_3drenderer_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_core.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_dbus.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_declarative.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_declarative_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_enginio.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_enginio_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_help.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_location.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_location_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_network.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_script.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_script_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webkit.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webkit_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webkitwidgets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\qt_functions.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\qt_config.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\qt_config.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\win32-g++\qmake.conf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\spec_post.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\exclusive_builds.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\default_pre.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\default_pre.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\resolve_config.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\default_post.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\build_pass.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\c++11.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\qt.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\resources.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\moc.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\opengl.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\uic.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\rtti.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\precompile_header.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\warn_on.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\win32\windows.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\testcase_targets.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\exceptions.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\yacc.prf C:\Qt\Qt5.5.1\5.5\mingw492_32\mkspecs\features\lex.prf ..\Lab2\Unit1.pro C:/Qt/Qt5.5.1/5.5/mingw492_32/lib/qtmain.prl C:/Qt/Qt5.5.1/5.5/mingw492_32/lib/Qt5Widgets.prl C:/Qt/Qt5.5.1/5.5/mingw492_32/lib/Qt5Gui.prl C:/Qt/Qt5.5.1/5.5/mingw492_32/lib/Qt5Core.prl  RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS NO_PCH_SOURCES YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\main.o release\unit1.o release\passworddialog.o release\changepassword.o release\adduser.o release\editusers.o release\about.o release\decryption.o release\SimpleCrypt.o release\moc_unit1.o release\moc_passworddialog.o release\moc_changepassword.o release\moc_adduser.o release\moc_editusers.o release\moc_about.o release\moc_decryption.o
+	-$(DEL_FILE) release\main.o release\unit1.o release\passworddialog.o release\changepassword.o release\adduser.o release\editusers.o release\about.o release\decryption.o release\SimpleCrypt.o release\qaesencryption.o release\moc_unit1.o release\moc_passworddialog.o release\moc_changepassword.o release\moc_adduser.o release\moc_editusers.o release\moc_about.o release\moc_decryption.o
 
 distclean: clean 
 	-$(DEL_FILE) $(DESTDIR_TARGET)
@@ -260,6 +264,10 @@ release/moc_unit1.cpp: C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QMainWind
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
 		../Lab2/unit1.h
 	C:\Qt\Qt5.5.1\5.5\mingw492_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++ -IC:/Users/OLEG/Documents/Qt/SecurInfo/2lab/Lab2 -IC:/OpenSSL-Win32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtANGLE -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore -I. ..\Lab2\unit1.h -o release\moc_unit1.cpp
 
@@ -379,6 +387,11 @@ release/moc_passworddialog.cpp: C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
+		../Lab2/changepassword.h \
 		../Lab2/passworddialog.h
 	C:\Qt\Qt5.5.1\5.5\mingw492_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++ -IC:/Users/OLEG/Documents/Qt/SecurInfo/2lab/Lab2 -IC:/OpenSSL-Win32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtANGLE -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore -I. ..\Lab2\passworddialog.h -o release\moc_passworddialog.cpp
 
@@ -498,6 +511,10 @@ release/moc_changepassword.cpp: C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
 		../Lab2/changepassword.h
 	C:\Qt\Qt5.5.1\5.5\mingw492_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++ -IC:/Users/OLEG/Documents/Qt/SecurInfo/2lab/Lab2 -IC:/OpenSSL-Win32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtANGLE -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore -I. ..\Lab2\changepassword.h -o release\moc_changepassword.cpp
 
@@ -617,6 +634,10 @@ release/moc_adduser.cpp: C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QDialog
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
 		../Lab2/adduser.h
 	C:\Qt\Qt5.5.1\5.5\mingw492_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++ -IC:/Users/OLEG/Documents/Qt/SecurInfo/2lab/Lab2 -IC:/OpenSSL-Win32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtANGLE -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore -I. ..\Lab2\adduser.h -o release\moc_adduser.cpp
 
@@ -736,6 +757,10 @@ release/moc_editusers.cpp: C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QDial
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
 		../Lab2/editusers.h
 	C:\Qt\Qt5.5.1\5.5\mingw492_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++ -IC:/Users/OLEG/Documents/Qt/SecurInfo/2lab/Lab2 -IC:/OpenSSL-Win32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtANGLE -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore -I. ..\Lab2\editusers.h -o release\moc_editusers.cpp
 
@@ -855,6 +880,10 @@ release/moc_about.cpp: C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QDialog \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
 		../Lab2/about.h
 	C:\Qt\Qt5.5.1\5.5\mingw492_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++ -IC:/Users/OLEG/Documents/Qt/SecurInfo/2lab/Lab2 -IC:/OpenSSL-Win32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtANGLE -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore -I. ..\Lab2\about.h -o release\moc_about.cpp
 
@@ -974,6 +1003,10 @@ release/moc_decryption.cpp: C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QDia
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
 		../Lab2/decryption.h
 	C:\Qt\Qt5.5.1\5.5\mingw492_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++ -IC:/Users/OLEG/Documents/Qt/SecurInfo/2lab/Lab2 -IC:/OpenSSL-Win32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtANGLE -IC:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore -I. ..\Lab2\decryption.h -o release\moc_decryption.cpp
 
@@ -1132,6 +1165,10 @@ release/main.o: ../Lab2/main.cpp ../Lab2/unit1.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QApplication \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qapplication.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
@@ -1256,7 +1293,53 @@ release/unit1.o: ../Lab2/unit1.cpp ../Lab2/unit1.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
 		ui_unit1.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QVariant \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QAction \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QApplication \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qguiapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qinputmethod.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QButtonGroup \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qbuttongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QMenu \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qmenu.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QMenuBar \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qmenubar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QPushButton \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QStatusBar \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstatusbar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QToolBar \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qtoolbar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QWidget \
 		../Lab2/passworddialog.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QDialog \
 		../Lab2/changepassword.h \
@@ -1387,7 +1470,53 @@ release/passworddialog.o: ../Lab2/passworddialog.cpp ../Lab2/passworddialog.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
-		ui_passworddialog.h
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
+		../Lab2/changepassword.h \
+		ui_passworddialog.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QVariant \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QAction \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QApplication \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qguiapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qinputmethod.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QButtonGroup \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qbuttongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLabel \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlabel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLineEdit \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlineedit.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextcursor.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextformat.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qpen.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QPushButton \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractbutton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\passworddialog.o ..\Lab2\passworddialog.cpp
 
 release/changepassword.o: ../Lab2/changepassword.cpp ../Lab2/changepassword.h \
@@ -1507,7 +1636,52 @@ release/changepassword.o: ../Lab2/changepassword.cpp ../Lab2/changepassword.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
-		ui_changepassword.h
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
+		ui_changepassword.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QVariant \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QAction \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QApplication \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qguiapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qinputmethod.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QButtonGroup \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qbuttongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLabel \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlabel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLineEdit \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlineedit.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextcursor.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextformat.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qpen.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QPushButton \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractbutton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\changepassword.o ..\Lab2\changepassword.cpp
 
 release/adduser.o: ../Lab2/adduser.cpp ../Lab2/adduser.h \
@@ -1627,7 +1801,52 @@ release/adduser.o: ../Lab2/adduser.cpp ../Lab2/adduser.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
-		ui_adduser.h
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
+		ui_adduser.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QVariant \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QAction \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QApplication \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qguiapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qinputmethod.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QButtonGroup \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qbuttongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLabel \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlabel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLineEdit \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlineedit.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextcursor.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextformat.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qpen.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QPushButton \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractbutton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\adduser.o ..\Lab2\adduser.cpp
 
 release/editusers.o: ../Lab2/editusers.cpp ../Lab2/editusers.h \
@@ -1747,7 +1966,54 @@ release/editusers.o: ../Lab2/editusers.cpp ../Lab2/editusers.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
-		ui_editusers.h
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
+		ui_editusers.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QVariant \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QAction \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QApplication \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qguiapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qinputmethod.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QButtonGroup \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qbuttongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QCheckBox \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qcheckbox.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLabel \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlabel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLineEdit \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlineedit.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextcursor.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextformat.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qpen.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QPushButton \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qpushbutton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\editusers.o ..\Lab2\editusers.cpp
 
 release/about.o: ../Lab2/about.cpp ../Lab2/about.h \
@@ -1867,7 +2133,54 @@ release/about.o: ../Lab2/about.cpp ../Lab2/about.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
-		ui_about.h
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
+		ui_about.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QVariant \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QAction \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QApplication \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qguiapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qinputmethod.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QButtonGroup \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qbuttongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QPlainTextEdit \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qplaintextedit.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qtextedit.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextdocument.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextcursor.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextformat.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qpen.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qabstracttextdocumentlayout.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextlayout.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qglyphrun.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qrawfont.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qfontdatabase.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\about.o ..\Lab2\about.cpp
 
 release/decryption.o: ../Lab2/decryption.cpp ../Lab2/decryption.h \
@@ -1987,7 +2300,52 @@ release/decryption.o: ../Lab2/decryption.cpp ../Lab2/decryption.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCryptographicHash \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
+		../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
 		ui_decryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QVariant \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QAction \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QApplication \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qguiapplication.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qinputmethod.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QButtonGroup \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qbuttongroup.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLabel \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlabel.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QLineEdit \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qlineedit.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextcursor.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextformat.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qpen.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtGui/qtextoption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/QPushButton \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtWidgets/qabstractbutton.h \
 		../Lab2/simplecrypt.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QString \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QVector \
@@ -2073,6 +2431,77 @@ release/SimpleCrypt.o: ../Lab2/SimpleCrypt.cpp ../Lab2/simplecrypt.h \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QDataStream \
 		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdatastream.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\SimpleCrypt.o ..\Lab2\SimpleCrypt.cpp
+
+release/qaesencryption.o: ../Lab2/qaesencryption.cpp ../Lab2/qaesencryption.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QByteArray \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qrefcount.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qglobal.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qconfig.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfeatures.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtypetraits.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsysinfo.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlogging.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qflags.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmutex.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qnumeric.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qnamespace.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QDebug \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdebug.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qalgorithms.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qhash.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlist.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringlist.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregexp.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpair.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmap.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtextstream.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qiodevice.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobject.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreevent.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmetatype.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qisenum.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobject_impl.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlocale.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvariant.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qshareddata.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvector.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpoint.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qset.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcontiguouscache.h \
+		C:/Qt/Qt5.5.1/5.5/mingw492_32/include/QtCore/QVector
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\qaesencryption.o ..\Lab2\qaesencryption.cpp
 
 release/moc_unit1.o: release/moc_unit1.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\moc_unit1.o release\moc_unit1.cpp

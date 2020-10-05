@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <unit1.h>
+#include <QFile>
 
 namespace Ui {
 class Decryption;
