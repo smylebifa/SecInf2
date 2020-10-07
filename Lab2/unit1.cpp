@@ -10,13 +10,11 @@
 
 AccountType User;
 
-bool CanClose;
-
 int Count;
 
-bool CanEnter;
+bool CanClose;
 
-string Key;
+bool CanEnter;
 
 Unit1::Unit1(QWidget *parent) :
     QMainWindow(parent),
@@ -30,9 +28,11 @@ Unit1::Unit1(QWidget *parent) :
 
     ui->pushButton->setVisible(false);
 
+    //Проверка зашифрованного пароля...
     passPhrase();
 
-    if(CanEnter)
+    //Если пароль совпал, разрешаем войти...
+    if (CanEnter)
     {
         ui->pushButton->setVisible(true);
     }
@@ -71,9 +71,7 @@ void Unit1::checkFile()
 
 void Unit1::decryption()
 {
-    if(CanClose)
-    {
-    ifstream file("TempFile.db");
+    ifstream file(TEMPFILE);
 
     string text,str;
 
@@ -87,21 +85,28 @@ void Unit1::decryption()
     }
     file.close();
 
+
+    ifstream fileKey("Key.db");
+
+    string keyFromFile;
+
+    if(fileKey)
+    {
+        getline(fileKey,keyFromFile);
+    }
+    fileKey.close();
+
+
     QAESEncryption encryption(QAESEncryption::AES_256, QAESEncryption::CBC);
 
     QString inputStr = QString::fromStdString(text);
-    QString key("12345");
+    QString key = QString::fromStdString(keyFromFile);
     QString iv("your-IV-vector");
 
     QByteArray hashKey = QCryptographicHash::hash(key.toLocal8Bit(), QCryptographicHash::Sha256);
     QByteArray hashIV = QCryptographicHash::hash(iv.toLocal8Bit(), QCryptographicHash::Md5);
 
     QByteArray encodeText = encryption.encode(inputStr.toLocal8Bit(), hashKey, hashIV);
-    QByteArray decodeText = encryption.decode(encodeText, hashKey, hashIV);
-
-    QString decodedString = QString(encryption.removePadding(decodeText));
-
-//    cout<<decodedString.toStdString()<<endl;
 
     QFile fileDec(DECFILE);
 
@@ -110,40 +115,8 @@ void Unit1::decryption()
         fileDec.write(encodeText);
     }
 
-
-//    QFile fileDec("DecFile.db");
-
-//    if(fileDec.open(QIODevice::WriteOnly)) fileDec.write(encodeText);
-
-//    fileDec.close();
-
-
-
-
-
-
-//    QString FreeTrialStartDate ;
-
-//    //Set The Encryption And Decryption Key
-//    SimpleCrypt processSimpleCrypt(Key);
-
-//    QString FreeTrialStartsOn=QString::fromStdString(text);
-
-//    //Encrypt
-//    FreeTrialStartDate = processSimpleCrypt.encryptToString(FreeTrialStartsOn);
-
-
-//    ofstream fileDec("DecFile.db");
-
-//    if(fileDec) fileDec<<FreeTrialStartDate.toStdString();
-
-//    fileDec.close();
-
     if(remove("TempFile.db")!=0)
         return;
-
-    }
-
 }
 
 
@@ -166,7 +139,7 @@ void Unit1::on_pushButton_clicked()
         ui->pushButton->setVisible(false);
 
         if(User.Block=='-')
-            ui->Change->setVisible(false);
+            ui->Change->setVisible(true);
     }
 
     checkAdmin();

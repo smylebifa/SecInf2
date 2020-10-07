@@ -14,7 +14,6 @@ PasswordDialog::PasswordDialog(QWidget *parent) :
     ui->Login->setText("");
     ui->Password->setText("");
 
-    CanClose=true;
     Error=0;
 
 }
@@ -185,7 +184,6 @@ void PasswordDialog::on_pushButton_clicked()
             Error++;
             if(Error==3)
             {
-                CanClose=false;
                 this->close();
             }
             else
@@ -233,6 +231,5 @@ void PasswordDialog::on_pushButton_clicked()
 
 void PasswordDialog::on_pushButton_2_clicked()
 {
-    CanClose=false;
     this->close();
 }

@@ -25,11 +25,9 @@ struct AccountType
 
 extern AccountType User;
 
-extern string Key;
+extern int Count;
 
 extern bool CanClose;
-
-extern int Count;
 
 extern bool CanEnter;
 

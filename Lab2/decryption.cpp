@@ -7,7 +7,7 @@ Decryption::Decryption(QWidget *parent) :
     ui(new Ui::Decryption)
 {
     ui->setupUi(this);
-    CanEnter=false;
+    CanEnter = false;
 }
 
 Decryption::~Decryption()
@@ -17,107 +17,100 @@ Decryption::~Decryption()
 
 void Decryption::on_pushButton_clicked()
 {
-    Key = ui->lineEdit->text().toStdString();
+    string Key = ui->lineEdit->text().toStdString();
 
-    if(Key != "12345")
+    ifstream fileKey("Key.db");
+
+    string keyFromFile;
+
+    if(fileKey)
+    {
+        getline(fileKey,keyFromFile);
+    }
+    fileKey.close();
+
+    if(Key != keyFromFile)
     {
         QErrorMessage msg(this);
         msg.showMessage(tr("Password is not true"));
         msg.exec();
     }
 
-    else
+    else if(Key == keyFromFile)
     {
 
-    CanClose=true;
+        string str;
+        QByteArray encodeText;
 
-    string str;
-    QByteArray encodeText;
+        QFile fileDec(DECFILE);
+        if(fileDec.open(QIODevice::ReadOnly)) encodeText = fileDec.readAll();
+        fileDec.close();
 
-    QFile fileDec(DECFILE);
-    if(fileDec.open(QIODevice::ReadOnly)) encodeText = fileDec.readAll();
-    fileDec.close();
+        QString key = QString::fromStdString(keyFromFile);
+        QString iv("your-IV-vector");
 
-    QString key("12345");
-    QString iv("your-IV-vector");
-
-    if(!encodeText.isEmpty())
-    {
-        QAESEncryption encryption(QAESEncryption::AES_256, QAESEncryption::CBC);
-
-        QByteArray hashKey = QCryptographicHash::hash(key.toLocal8Bit(), QCryptographicHash::Sha256);
-        QByteArray hashIV = QCryptographicHash::hash(iv.toLocal8Bit(), QCryptographicHash::Md5);
-
-        QByteArray decodeText = encryption.decode(encodeText, hashKey, hashIV);
-
-        QString decodedString = QString(encryption.removePadding(decodeText));
-
-        ofstream fileTempOut(TEMPFILE);
-
-        if(fileTempOut) fileTempOut<<decodedString.toStdString();
-
-        fileTempOut.close();
-    }
-
-
-
-//    if(!str.empty())
-//    {
-
-//        SimpleCrypt processSimpleCrypt(Key);
-
-//        //Decrypt
-//        QString decrypt = processSimpleCrypt.decryptToString(QString::fromStdString(str));
-
-//        ofstream fileTempOut(TEMPFILE);
-
-//        if(fileTempOut) fileTempOut<<decrypt.toStdString();
-
-//        fileTempOut.close();
-//    }
-
-
-
-    ifstream fileTempIn(TEMPFILE);
-
-    bool findAdmin=false;
-    string login;
-    int i;
-
-    if (fileTempIn)
-    {
-        while(getline(fileTempIn,str))
+        if(!encodeText.isEmpty())
         {
-            i=0;
-            while (str[i]!=' ')
-            {
-                login.push_back(str[i]);
-                i++;
-            }
+            QAESEncryption encryption(QAESEncryption::AES_256, QAESEncryption::CBC);
 
-            if(login=="ADMIN")
-            {
-                findAdmin=true;
-                break;
-            }
-            login.clear();
+            QByteArray hashKey = QCryptographicHash::hash(key.toLocal8Bit(), QCryptographicHash::Sha256);
+            QByteArray hashIV = QCryptographicHash::hash(iv.toLocal8Bit(), QCryptographicHash::Md5);
+
+            QByteArray decodeText = encryption.decode(encodeText, hashKey, hashIV);
+
+            QString decodedString = QString(encryption.removePadding(decodeText));
+
+            ofstream fileTempOut(TEMPFILE);
+
+            if(fileTempOut) fileTempOut<<decodedString.toStdString();
+
+            fileTempOut.close();
         }
-    }
 
-    fileTempIn.close();
+        ifstream fileTempIn(TEMPFILE);
 
-    if(findAdmin)
-    {
-        CanEnter=true;
-        this->close();
-    }
+        bool findAdmin=false;
+        string login;
+        int i;
+        string x;
 
-    else
-    {
-        CanClose=false;
-        this->close();
-    }
+        int j=0;
 
+
+        if (fileTempIn)
+        {
+            getline(fileTempIn,str);
+
+            int count=0;
+
+            for(int i=0; i<str.length(); i++)
+            {
+                if(str[i]!=' ' && count==0)
+                {
+                    login.push_back(str[i]);
+                }
+                else if(str[i]==' ')
+                {
+                    if(login == "ADMIN")
+                    {
+                        findAdmin = true;
+                        break;
+                    }
+                    x+=login;
+                    login.clear();
+
+                    count++;
+
+                    if(count == 3)
+                    {
+                        count = 0;
+                        i += 2;
+                    }
+                }
+            }
+        }
+
+        fileTempIn.close();
     }
 
 }
