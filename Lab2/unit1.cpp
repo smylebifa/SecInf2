@@ -12,7 +12,7 @@ AccountType User;
 
 int Count;
 
-bool CanClose;
+bool IsAuthorized;
 
 bool CanEnter;
 
@@ -28,10 +28,12 @@ Unit1::Unit1(QWidget *parent) :
 
     ui->pushButton->setVisible(false);
 
-    //РџСЂРѕРІРµСЂРєР° Р·Р°С€РёС„СЂРѕРІР°РЅРЅРѕРіРѕ РїР°СЂРѕР»СЏ...
+    IsAuthorized = false;
+
+    //Проверка зашифрованного пароля...
     passPhrase();
 
-    //Р•СЃР»Рё РїР°СЂРѕР»СЊ СЃРѕРІРїР°Р», СЂР°Р·СЂРµС€Р°РµРј РІРѕР№С‚Рё...
+    //Если пароль совпал, разрешаем войти...
     if (CanEnter)
     {
         ui->pushButton->setVisible(true);
@@ -69,6 +71,7 @@ void Unit1::checkFile()
 
 }
 
+//Форма проверки ключа и расшифрования файла...
 void Unit1::decryption()
 {
     ifstream file(TEMPFILE);
@@ -80,7 +83,7 @@ void Unit1::decryption()
         while (getline(file,str))
         {
             text.append(str);
-            text.append("\n");
+    //            text.append("\n");
         }
     }
     file.close();
@@ -134,7 +137,7 @@ void Unit1::on_pushButton_clicked()
     dialog.show();
     dialog.exec();
 
-    if(CanClose)
+    if(IsAuthorized)
     {
         ui->pushButton->setVisible(false);
 

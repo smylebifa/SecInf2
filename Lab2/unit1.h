@@ -27,7 +27,7 @@ extern AccountType User;
 
 extern int Count;
 
-extern bool CanClose;
+extern bool IsAuthorized;
 
 extern bool CanEnter;
 

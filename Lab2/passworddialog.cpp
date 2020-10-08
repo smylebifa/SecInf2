@@ -86,42 +86,50 @@ void PasswordDialog::on_pushButton_clicked()
         string str;
         int i;
 
+        string username, userpass;
+
         ifstream file(TEMPFILE);
 
-        if (file){
+        if (file)
+        {
             while(getline(file,str))
             {
                 AccountType user;
                 i=0;
                 while (str[i]!=' ')
                 {
-                    user.UserName.push_back(str[i]);
+                    username.push_back(str[i]);
                     i++;
                 }
 
-                if(login==user.UserName)
+                if(login == username)
                 {
                     if(str[i+1]!='-' && str[i+1]!='+')
                     {
                         while (str[i+1]!=' ')
                         {
-                            user.UserPass.push_back(str[i+1]);
+                            userpass.push_back(str[i+1]);
                             i++;
                         }
 
-                        if(user.UserPass==password)
+                        if(userpass == password)
                         {
+                            //Password doesn't satisfy restrictions...
                             if(!checkPassOnRestrict(password))
                             {
                                 x = 3;
-                                findingUser=user;
+                                user.UserName = username;
+                                user.UserPass = userpass;
+                                findingUser = user;
                                 break;
                             }
                             else
                             {
                             user.Block=str[i+2];
                             user.Restrict=str[i+4];
-                            findingUser=user;
+                            user.UserName = username;
+                            user.UserPass = userpass;
+                            findingUser = user;
 
                             x=2;
                             break;
@@ -130,6 +138,8 @@ void PasswordDialog::on_pushButton_clicked()
 
                         else
                         {
+                            user.UserName = username;
+                            user.UserPass = userpass;
                             findingUser=user;
                             x=1;
                             break;
@@ -138,6 +148,7 @@ void PasswordDialog::on_pushButton_clicked()
 
                     else
                     {
+                        user.UserName = username;
                         user.Block=str[i+1];
                         user.Restrict=str[i+3];
                         x=2;
@@ -156,10 +167,10 @@ void PasswordDialog::on_pushButton_clicked()
             msg.showMessage(tr("Password does not satisfy the restrictions!"));
             msg.exec();
 
-            User.UserName=findingUser.UserName;
-            User.UserPass=findingUser.UserPass;
-            User.Block=findingUser.Block;
-            User.Restrict=findingUser.Restrict;
+            User.UserName = findingUser.UserName;
+            User.UserPass = findingUser.UserPass;
+            User.Block = findingUser.Block;
+            User.Restrict = findingUser.Restrict;
 
             ChangePassword dialog;
             dialog.show();
@@ -171,10 +182,13 @@ void PasswordDialog::on_pushButton_clicked()
         //entering user
         if(x==2)
         {
-            User.UserName=findingUser.UserName;
-            User.UserPass=findingUser.UserPass;
-            User.Block=findingUser.Block;
-            User.Restrict=findingUser.Restrict;
+            User.UserName = findingUser.UserName;
+            User.UserPass = findingUser.UserPass;
+            User.Block = findingUser.Block;
+            User.Restrict = findingUser.Restrict;
+
+            IsAuthorized = true;
+
             this->close();
         }
 
@@ -221,6 +235,9 @@ void PasswordDialog::on_pushButton_clicked()
                     User.Restrict=res;
 
                     file.close();
+
+                    IsAuthorized = true;
+
                     this->close();
 
                 }

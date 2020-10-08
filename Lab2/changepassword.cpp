@@ -96,33 +96,55 @@ void ChangePassword::on_pushButton_2_clicked()
 
 void ChangePassword::changePassword()
 {
-    string login=User.UserName;
-    string newPass=ui->Edit1->text().toStdString();
+    string login = User.UserName;
+    string newPass = ui->Edit1->text().toStdString();
 
     ifstream file1(TEMPFILE);
     ofstream file2("TempCopy.db");
 
-    string str,log;    
+    string str,log;
 
-    int i;
-
-    if (file1 && file2){
+    if (file1 && file2)
+    {
         while(getline(file1,str))
         {
-            i=0;
-            while (str[i]!=' '){
-                log.push_back(str[i]);
-                i++;
-            }
 
-            if(login==log)
+            for(int i=0; i<str.length(); i++)
             {
-                file2<<login<<" "<<newPass<<" "<<'-'<<" "<<'+'<<"\n";
+                if(str[i]!=' ')
+                {
+                    log.push_back(str[i]);
+                    file2<<str[i];
+                }
+                else if(str[i]==' ')
+                {
+                    if(login == log)
+                    {
+                        file2<<str[i]<<newPass;
+
+                        i++;
+                        while(str[i] != ' ')
+                            i++;
+                        file2<<str[i]<<str[i+1]<<str[i+2]<<str[i+3]<<'\n';
+                        i += 4;
+                        log.clear();
+                    }
+
+                    else
+                    {
+                        file2<<str[i];
+                        i++;
+                        while(str[i] != ' ')
+                        {
+                            file2<<str[i];
+                            i++;
+                        }
+                        file2<<str[i]<<str[i+1]<<str[i+2]<<str[i+3]<<'\n';
+                        i += 4;
+                        log.clear();
+                    }
+                }
             }
-
-            else file2<<str<<"\n";
-
-            log.clear();
         }
     }
 
@@ -134,10 +156,11 @@ void ChangePassword::changePassword()
     ofstream nfile2(TEMPFILE);
 
 
-    if (nfile1 && nfile2){
+    if (nfile1 && nfile2)
+    {
         while(getline(nfile1,str))
         {
-            nfile2<<str<<"\n";
+            nfile2<<str<<'\n';
         }
     }
 
@@ -146,6 +169,8 @@ void ChangePassword::changePassword()
 
     if(remove("TempCopy.db")!=0)
         return;
+
+    IsAuthorized = true;
 
     this->close();
 }

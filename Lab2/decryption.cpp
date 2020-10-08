@@ -60,9 +60,39 @@ void Decryption::on_pushButton_clicked()
 
             QString decodedString = QString(encryption.removePadding(decodeText));
 
+            string decStr = decodedString.toStdString();
+
+            string StrToWrite;
+
+            int count = 0;
+
+            for(int i=0; i<decStr.length(); i++)
+            {
+                if(decStr[i] == ' ')
+                {
+                    count++;
+                }
+
+                if(count == 3)
+                {
+                    count = 0;
+                    StrToWrite.push_back(decStr[i]);
+                    i++;
+                    StrToWrite.push_back(decStr[i]);
+                    StrToWrite.push_back('\n');
+                }
+                else
+                {
+                    StrToWrite.push_back(decStr[i]);
+                }
+
+            }
+
+
+
             ofstream fileTempOut(TEMPFILE);
 
-            if(fileTempOut) fileTempOut<<decodedString.toStdString();
+            if(fileTempOut) fileTempOut<<StrToWrite;
 
             fileTempOut.close();
         }
@@ -75,45 +105,67 @@ void Decryption::on_pushButton_clicked()
         string x;
 
         int j=0;
+        int count = 0;
 
 
         if (fileTempIn)
         {
-            getline(fileTempIn,str);
-
-            int count=0;
-
-            for(int i=0; i<str.length(); i++)
+            while(getline(fileTempIn,str))
             {
-                if(str[i]!=' ' && count==0)
+
+                for(int i=0; i<str.length(); i++)
                 {
-                    login.push_back(str[i]);
-                }
-                else if(str[i]==' ')
-                {
+                    while(str[i]!=' ' && count == 0)
+                    {
+                        login.push_back(str[i]);
+                        i++;
+                    }
+
+                    x += login;
+
                     if(login == "ADMIN")
                     {
                         findAdmin = true;
+                        CanEnter = true;
                         break;
                     }
-                    x+=login;
+
+
                     login.clear();
+
+                    i++;
+                    count++;
+
+                    while(str[i]!=' ')
+                    {
+                        i++;
+                    }
 
                     count++;
 
-                    if(count == 3)
+                    if(count == 2)
                     {
                         count = 0;
-                        i += 2;
+                        i += 4;
                     }
                 }
             }
         }
 
         fileTempIn.close();
-    }
+        this->close();
 
+
+        ofstream filex("X.db");
+
+        if(filex)
+        {
+            filex<<x;
+        }
+        filex.close();
+    }
 }
+
 
 void Decryption::on_pushButton_2_clicked()
 {
