@@ -94,67 +94,75 @@ void PasswordDialog::on_pushButton_clicked()
         {
             while(getline(file,str))
             {
-                AccountType user;
-                i=0;
-                while (str[i]!=' ')
+                for(int i=0; i<str.length(); i++)
                 {
-                    username.push_back(str[i]);
-                    i++;
-                }
-
-                if(login == username)
-                {
-                    if(str[i+1]!='-' && str[i+1]!='+')
+                    if(str[i] != ' ')
                     {
-                        while (str[i+1]!=' ')
+                        username.push_back(str[i]);
+                    }
+                    else if(str[i] == ' ')
+                    {
+                        //Если имя пользователя совпало с прочитанным из файла...
+                        if(username == login)
                         {
-                            userpass.push_back(str[i+1]);
-                            i++;
+                            if(str[i+1] != '-' && str[i+1] != '+')
+                            {
+                                while (str[i+1]!=' ')
+                                {
+                                    userpass.push_back(str[i+1]);
+                                    i++;
+                                }
+
+                                if(userpass == password)
+                                {
+                                    //Password doesn't satisfy restrictions...
+                                    if(!checkPassOnRestrict(password))
+                                    {
+                                        findingUser.UserName = username;
+                                        findingUser.UserPass = userpass;
+                                        x = 3;
+                                        break;
+                                    }
+
+                                    //Password is match...
+                                    else
+                                    {
+                                        findingUser.UserName = username;
+                                        findingUser.UserPass = userpass;
+                                        findingUser.Block = str[i+2];
+                                        findingUser.Restrict = str[i+4];
+                                        x=2;
+                                        break;
+                                    }
+                                }
+
+                                //Password isn't match...
+                                else
+                                {
+                                    findingUser.UserName = username;
+                                    findingUser.UserPass = userpass;
+                                    x=1;
+                                    break;
+                                }
+                            }
                         }
 
-                        if(userpass == password)
-                        {
-                            //Password doesn't satisfy restrictions...
-                            if(!checkPassOnRestrict(password))
-                            {
-                                x = 3;
-                                user.UserName = username;
-                                user.UserPass = userpass;
-                                findingUser = user;
-                                break;
-                            }
-                            else
-                            {
-                            user.Block=str[i+2];
-                            user.Restrict=str[i+4];
-                            user.UserName = username;
-                            user.UserPass = userpass;
-                            findingUser = user;
-
-                            x=2;
-                            break;
-                            }
-                        }
-
+                        //Если имя пользователя не совпало с прочитанным из файла...
                         else
                         {
-                            user.UserName = username;
-                            user.UserPass = userpass;
-                            findingUser=user;
-                            x=1;
-                            break;
+                            while (str[i+1]!=' ')
+                            {
+                                i++;
+                            }
+
+                            i +=4;
+
+                            username.clear();
+                            userpass.clear();
+
                         }
                     }
 
-                    else
-                    {
-                        user.UserName = username;
-                        user.Block=str[i+1];
-                        user.Restrict=str[i+3];
-                        x=2;
-                        findingUser=user;
-                        break;
-                    }
                 }
             }
         }
@@ -213,12 +221,21 @@ void PasswordDialog::on_pushButton_clicked()
         {
             if(!checkPassOnRestrict(password))
             {
+                User.UserName = login;
+                User.Block = str[i+1];
+                User.Restrict = str[i+3];
+
                 QErrorMessage msg(this);
                 msg.showMessage(tr("Password does not satisfy the restrictions!"));
                 msg.exec();
             }
             else
             {
+                User.UserName = login;
+                User.Block = str[i+1];
+                User.Restrict = str[i+3];
+                User.UserPass = password;
+
                 ofstream file(TEMPFILE,std::ios::app);
 
                 if(file){
