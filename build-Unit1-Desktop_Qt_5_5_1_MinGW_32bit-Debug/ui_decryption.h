@@ -40,6 +40,7 @@ public:
         lineEdit = new QLineEdit(Decryption);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
         lineEdit->setGeometry(QRect(70, 70, 261, 20));
+        lineEdit->setEchoMode(QLineEdit::Password);
         pushButton = new QPushButton(Decryption);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(100, 120, 75, 23));

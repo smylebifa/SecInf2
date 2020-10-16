@@ -156,13 +156,9 @@ void Decryption::on_pushButton_clicked()
         this->close();
 
 
-        ofstream filex("X.db");
+        if(remove(DECFILE) != 0)
+            return;
 
-        if(filex)
-        {
-            filex<<x;
-        }
-        filex.close();
     }
 }
 

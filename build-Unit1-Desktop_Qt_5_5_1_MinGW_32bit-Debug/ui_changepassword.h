@@ -46,12 +46,14 @@ public:
         Edit1 = new QLineEdit(ChangePassword);
         Edit1->setObjectName(QStringLiteral("Edit1"));
         Edit1->setGeometry(QRect(180, 90, 111, 20));
+        Edit1->setEchoMode(QLineEdit::Password);
         label_2 = new QLabel(ChangePassword);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setGeometry(QRect(80, 150, 91, 16));
         Edit2 = new QLineEdit(ChangePassword);
         Edit2->setObjectName(QStringLiteral("Edit2"));
         Edit2->setGeometry(QRect(180, 150, 111, 20));
+        Edit2->setEchoMode(QLineEdit::Password);
         pushButton = new QPushButton(ChangePassword);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(90, 220, 75, 23));
@@ -64,6 +66,7 @@ public:
         Edit3 = new QLineEdit(ChangePassword);
         Edit3->setObjectName(QStringLiteral("Edit3"));
         Edit3->setGeometry(QRect(180, 30, 111, 20));
+        Edit3->setEchoMode(QLineEdit::Password);
 
         retranslateUi(ChangePassword);
 
