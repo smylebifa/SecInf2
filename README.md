@@ -1,1 +1,1 @@
-Приложение для регистрации пользователей с возможностью шифрования файла, хранящего всех зарегестрированных пользователей.  
+## App for registration users with ecrypting, storing info about users
